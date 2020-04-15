@@ -1,7 +1,7 @@
 
 from canvasapi import Canvas
 
-### API sorcery ###
+### API sorcery ####
 
 API_URL = ""
 API_KEY = ""
@@ -24,16 +24,16 @@ the_data = {'section_name' : 'ENGR 216-501',
                                 {'assignment_name' : 'HW2',
                                  'graders' : ['jane doe', ...]
                                  'ammount_graded' : [11, ...]
-                                }, 
+                                },
                                 ...
                             ]
-            }    
+            }
 """
 
 ### Functions to fetch Sections ###
 
 def get_prof_sections(prof):
-    """ Takes the prof. name as a string. 
+    """ Takes the prof. name as a string.
     Returns a list of the actual Section objects for the given PT.
     """
     prof_id = course.get_users(search_term=prof)[0].id
@@ -47,7 +47,7 @@ def get_prof_sections(prof):
     return sections
 
 def get_pt_sections(pt):
-    """ Takes the PT name as a string. 
+    """ Takes the PT name as a string.
     Returns a list of the actual Section objects for the given PT.
     """
     pt_id = course.get_users(search_term=pt)[0].id
@@ -65,7 +65,7 @@ def get_all_sections():
     """
     sections = course.get_sections()
     return list(sections)
-    
+
 def get_sections(section_names):
     """ Take a list of sections names as strings.
     Returns a list of the actual Section objects.
@@ -75,12 +75,12 @@ def get_sections(section_names):
         section = course.get_sections(search_term=name)
         sections.append(section[0])
     return sections
-    
+
 ### The workhorse function to get the data for a given section. ###
 
 def get_the_data(section):
-    """ Takes a Section object. 
-    Returns all of the grade info for this section as a custom data object. 
+    """ Takes a Section object.
+    Returns all of the grade info for this section as a custom data object.
     """
     # Setup the dictionary to return
     section_data = {}
@@ -100,7 +100,7 @@ def get_the_data(section):
         # Initial fetch
         graders, graded_ammount = _get_grader_breakdown(entry, student_ids)
         # If blank (wrong section), skip
-        if graders:      
+        if graders:
             # Make sure every PT has an entry
             for pt in pts:
                 if pt not in graders:
@@ -115,7 +115,7 @@ def get_the_data(section):
     # Pack up and return
     section_data['assignments'] = assignment_data
     return section_data
-    
+
 ### Helper functions for get_the_data ###
 
 def _get_prof_name(section):
@@ -127,7 +127,7 @@ def _get_prof_name(section):
     except IndexError:
         name = 'None'
     return name
-   
+
 def _get_grader_breakdown(assignment, student_ids):
     """ For a given Assignment, function returns two lists:
     - a list of graders
@@ -149,7 +149,7 @@ def _get_grader_breakdown(assignment, student_ids):
             if submission['workflow_state'] == 'submitted':
                 grader = 'Ungraded'
             # Check unsubmitted
-            elif submission['workflow_state'] == 'unsubmitted': 
+            elif submission['workflow_state'] == 'unsubmitted':
                 grader = 'Unsubmitted'
             # Else get grader
             elif submission['workflow_state'] == 'graded':
