@@ -3,7 +3,7 @@ from canvasapi import Canvas
 
 ### API sorcery ###
 
-API_URL = "https://canvas.instructure.com/"
+API_URL = ""
 API_KEY = ""
 # Connect to the course
 canvas = Canvas(API_URL, API_KEY)
@@ -16,6 +16,7 @@ Data is formatted as the following:
 
 the_data = {'section_name' : 'ENGR 216-501',
             'prof_name' : 'Cahill',
+            'section_pts' : ['jane doe', ...],
             'assignments' : [   {'assignment_name' : 'HW1',
                                  'graders' : ['jane doe', ...],     <--- Indices line up
                                  'ammount_graded' : [4, ...]        <--- with these indices
@@ -91,6 +92,7 @@ def get_the_data(section):
               if entry.type == 'TaEnrollment']
     student_ids = [entry.user['id'] for entry in enrollments \
                    if entry.type == 'StudentEnrollment']
+    section_data['section_pts'] = pts
     # Iterate through assignments
     assignment_data = []
     for entry in course.get_assignments():
